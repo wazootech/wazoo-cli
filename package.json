@@ -1,0 +1,37 @@
+{
+  "name": "@wazoo/cli",
+  "version": "0.1.0",
+  "description": "Command-line interface for the Wazoo Platform",
+  "type": "module",
+  "bin": {
+    "wazoo": "./bin/wazoo.js"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier \"src/**/*.ts\" --write",
+    "format:check": "prettier \"src/**/*.ts\" --check"
+  },
+  "keywords": [
+    "wazoo",
+    "cli",
+    "memory",
+    "worlds",
+    "agentic-ai"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@wazoo/client": "file:../wazoo-client-ts",
+    "commander": "^14.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "prettier": "^3.9.5",
+    "typescript": "^5.9.2"
+  }
+}
