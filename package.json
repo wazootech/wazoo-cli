@@ -26,7 +26,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@wazoo/client": "file:../wazoo-client-ts",
+    "@wazoo/client": "file:../../../repos/wazoo-client-ts",
     "cfonts": "^3.3.1",
     "commander": "^14.0.3"
   },
