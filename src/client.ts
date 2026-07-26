@@ -1,4 +1,5 @@
 import { client } from "@wazoo/client";
+import { readFile } from "node:fs/promises";
 
 export interface GlobalOptions {
   apiUrl?: string;
@@ -16,6 +17,41 @@ export function configureClient(options: GlobalOptions) {
   });
 
   return { baseUrl, token };
+}
+
+export async function fetchWorldsData(
+  endpointPath: string,
+  method: "GET" | "POST",
+  body?: unknown,
+  options?: GlobalOptions,
+) {
+  const { baseUrl, token } = configureClient(options || {});
+  const worldsApiBase = process.env.WORLDS_API_URL || "https://worlds-api.wazoo.dev";
+  const url = `${worldsApiBase}${endpointPath}`;
+
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
+  const response = await fetch(url, {
+    method,
+    headers,
+    body: body ? JSON.stringify(body) : undefined,
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Worlds API request failed [${response.status}]: ${errorText}`);
+  }
+
+  const contentType = response.headers.get("content-type");
+  if (contentType?.includes("application/json")) {
+    return response.json();
+  }
+  return response.text();
 }
 
 export function formatOutput(data: unknown, jsonMode?: boolean) {
