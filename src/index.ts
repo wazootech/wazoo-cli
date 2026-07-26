@@ -1,4 +1,5 @@
 import { Command } from "commander";
+import { renderBanner } from "./banner.js";
 import { registerHealthCommand } from "./commands/health.js";
 import { registerWorldsCommand } from "./commands/worlds.js";
 import { registerTokensCommand } from "./commands/tokens.js";
@@ -19,7 +20,15 @@ registerWorldsCommand(program);
 registerTokensCommand(program);
 registerUsageCommand(program);
 
+const isJson = process.argv.includes("--json");
+const isSubcommand = process.argv.length > 2 && !process.argv.slice(2).every(arg => arg.startsWith("-"));
+
+if (!isJson && !isSubcommand) {
+  renderBanner();
+}
+
 program.parseAsync(process.argv).catch((err) => {
   console.error("CLI error:", err);
   process.exit(1);
 });
+
