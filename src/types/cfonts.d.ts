@@ -14,6 +14,9 @@ declare module "cfonts" {
     env?: "node" | "browser";
   }
 
-  export function render(text: string, options?: CFontsOptions): { string: string; array: string[] };
+  export function render(
+    text: string,
+    options?: CFontsOptions,
+  ): { string: string; array: string[] };
   export function say(text: string, options?: CFontsOptions): void;
 }

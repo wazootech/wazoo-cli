@@ -8,8 +8,10 @@ export interface GlobalOptions {
 }
 
 export function configureClient(options: GlobalOptions) {
-  const baseUrl = options.apiUrl || process.env.WAZOO_API_URL || "https://api.wazoo.dev";
-  const token = options.token || process.env.WAZOO_API_TOKEN || process.env.WORLDS_TOKEN;
+  const baseUrl =
+    options.apiUrl || process.env.WAZOO_API_URL || "https://api.wazoo.dev";
+  const token =
+    options.token || process.env.WAZOO_API_TOKEN || process.env.WORLDS_TOKEN;
 
   client.setConfig({
     baseUrl,
@@ -26,7 +28,8 @@ export async function fetchWorldsData(
   options?: GlobalOptions,
 ) {
   const { baseUrl, token } = configureClient(options || {});
-  const worldsApiBase = process.env.WORLDS_API_URL || "https://worlds-api.wazoo.dev";
+  const worldsApiBase =
+    process.env.WORLDS_API_URL || "https://worlds-api.wazoo.dev";
   const url = `${worldsApiBase}${endpointPath}`;
 
   const headers: Record<string, string> = {
@@ -44,7 +47,9 @@ export async function fetchWorldsData(
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`Worlds API request failed [${response.status}]: ${errorText}`);
+    throw new Error(
+      `Worlds API request failed [${response.status}]: ${errorText}`,
+    );
   }
 
   const contentType = response.headers.get("content-type");
