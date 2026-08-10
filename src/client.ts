@@ -1,5 +1,4 @@
 import { client } from "@wazoo/client";
-import { readFile } from "node:fs/promises";
 
 export interface GlobalOptions {
   apiUrl?: string;
@@ -27,7 +26,7 @@ export async function fetchWorldsData(
   body?: unknown,
   options?: GlobalOptions,
 ) {
-  const { baseUrl, token } = configureClient(options || {});
+  const { token } = configureClient(options || {});
   const worldsApiBase =
     process.env.WORLDS_API_URL || "https://worlds-api.wazoo.dev";
   const url = `${worldsApiBase}${endpointPath}`;
