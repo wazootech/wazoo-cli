@@ -48,16 +48,14 @@ export function registerWorldsCommand(program: Command) {
   worlds
     .command("create")
     .description("Create a new world graph")
-    .requiredOption("-w, --world-id <worldId>", "World resource ID")
     .requiredOption("-n, --name <displayName>", "World display name")
-    .action(async (cmdOpts: { worldId: string; name: string }) => {
+    .action(async (cmdOpts: { name: string }) => {
       const opts = program.opts<GlobalOptions>();
       configureClient(opts);
 
       try {
         const response = await createWorld({
           body: {
-            worldId: cmdOpts.worldId,
             world: {
               displayName: cmdOpts.name,
             },

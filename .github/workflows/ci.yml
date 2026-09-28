@@ -18,4 +18,10 @@ jobs:
       - run: npm run format:check
       - run: npm run lint
       - run: npm run typecheck
+      - name: Reject legacy platform identity names
+        run: |
+          if grep -R -n -E '\buid\b|world_uid|worldUid|_uid\b' src/; then
+            echo "Legacy platform identity found."
+            exit 1
+          fi
       - run: npm run build

@@ -22,8 +22,10 @@ export WAZOO_API_TOKEN="wzp_..."
 # List worlds
 wazoo worlds list
 
-# Get world details
-wazoo worlds get project-context
+# Create a world, then use its returned id for world-specific commands
+wazoo worlds create --name "Project Context"
+export WORLD_ID="<id from the response>"
+wazoo worlds get "$WORLD_ID"
 
 # View current usage & limits
 wazoo usage --json
