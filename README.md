@@ -22,7 +22,7 @@ export WAZOO_API_TOKEN="wzp_..."
 # List worlds
 wazoo worlds list
 
-# Create a world, then use its returned id for world-specific commands
+# Create a world; its server-minted ID has the form w_<UUIDv4>
 wazoo worlds create --name "Project Context"
 export WORLD_ID="<id from the response>"
 wazoo worlds get "$WORLD_ID"

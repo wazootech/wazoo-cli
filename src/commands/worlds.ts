@@ -31,7 +31,7 @@ export function registerWorldsCommand(program: Command) {
 
   worlds
     .command("get <worldId>")
-    .description("Get details for a specific world by worldId")
+    .description("Get details for a world by its server-minted ID")
     .action(async (worldId: string) => {
       const opts = program.opts<GlobalOptions>();
       configureClient(opts);
@@ -47,7 +47,7 @@ export function registerWorldsCommand(program: Command) {
 
   worlds
     .command("create")
-    .description("Create a new world graph")
+    .description("Create a world; the API returns its immutable w_<UUIDv4> ID")
     .requiredOption("-n, --name <displayName>", "World display name")
     .action(async (cmdOpts: { name: string }) => {
       const opts = program.opts<GlobalOptions>();
@@ -97,7 +97,7 @@ export function registerWorldsCommand(program: Command) {
 
         try {
           const result = await fetchWorldsData(
-            `/worlds/${worldId}/import`,
+            `/worlds/${encodeURIComponent(worldId)}/import`,
             "POST",
             { contentType: cmdOpts.type, data: content },
             opts,
@@ -173,7 +173,7 @@ export function registerWorldsCommand(program: Command) {
 
         try {
           const result = await fetchWorldsData(
-            `/worlds/${worldId}/search`,
+            `/worlds/${encodeURIComponent(worldId)}/search`,
             "POST",
             {
               query: cmdOpts.query,
@@ -217,7 +217,7 @@ export function registerWorldsCommand(program: Command) {
 
         try {
           const result = await fetchWorldsData(
-            `/worlds/${worldId}/sparql`,
+            `/worlds/${encodeURIComponent(worldId)}/sparql`,
             "POST",
             { query: sparqlQuery },
             opts,
@@ -252,7 +252,7 @@ export function registerWorldsCommand(program: Command) {
             limit: cmdOpts.limit,
           });
           const result = await fetchWorldsData(
-            `/worlds/${worldId}/export?${queryParams.toString()}`,
+            `/worlds/${encodeURIComponent(worldId)}/export?${queryParams.toString()}`,
             "GET",
             undefined,
             opts,

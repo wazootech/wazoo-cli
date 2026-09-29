@@ -27,8 +27,7 @@ export async function fetchWorldsData(
   options?: GlobalOptions,
 ) {
   const { token } = configureClient(options || {});
-  const worldsApiBase =
-    process.env.WORLDS_API_URL || "https://worlds-api.wazoo.dev";
+  const worldsApiBase = process.env.WORLDS_API_URL || "https://data.wazoo.dev";
   const url = `${worldsApiBase}${endpointPath}`;
 
   const headers: Record<string, string> = {
