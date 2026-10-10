@@ -11,17 +11,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm ci || npm install
-      - run: npm run format:check
-      - run: npm run lint
-      - run: npm run typecheck
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run format:check
+      - run: pnpm run lint
+      - run: pnpm run typecheck
       - name: Reject legacy platform identity names
         run: |
           if grep -R -n -E '\buid\b|world_uid|worldUid|_uid\b' src/; then
             echo "Legacy platform identity found."
             exit 1
           fi
-      - run: npm run build
+      - run: pnpm run build

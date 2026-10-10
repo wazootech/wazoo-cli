@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Command-line interface for the Wazoo Platform",
   "type": "module",
+  "packageManager": "pnpm@12.11.2",
   "bin": {
     "wazoo": "./bin/wazoo.js"
   },
