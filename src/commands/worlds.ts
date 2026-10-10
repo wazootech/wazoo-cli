@@ -8,6 +8,30 @@ import {
 } from "../client.js";
 import { readFile } from "node:fs/promises";
 
+const IMPORT_TYPES_BY_EXTENSION: Record<string, string> = {
+  ".ttl": "text/turtle",
+  ".trig": "application/trig",
+  ".nt": "application/n-triples",
+  ".nq": "application/n-quads",
+  ".n3": "text/n3",
+  ".json": "application/json",
+};
+
+/**
+ * importContentType picks the import content type: an explicit --type wins;
+ * otherwise an RDF or JSON file extension decides; anything else is text
+ * chunks. Without this, `--file data.ttl` imported each Turtle line as a
+ * text chunk instead of triples.
+ */
+export function importContentType(
+  explicitType: string | undefined,
+  filePath: string | undefined,
+): string {
+  if (explicitType) return explicitType;
+  const extension = filePath?.toLowerCase().match(/\.[a-z0-9]+$/)?.[0];
+  return (extension && IMPORT_TYPES_BY_EXTENSION[extension]) || "text/plain";
+}
+
 export function registerWorldsCommand(program: Command) {
   const worlds = program
     .command("worlds")
@@ -75,13 +99,12 @@ export function registerWorldsCommand(program: Command) {
     .option("-d, --data <text>", "Inline text content to import")
     .option(
       "-t, --type <contentType>",
-      "Content type (default: text/plain)",
-      "text/plain",
+      "Content type (default: from the file extension, e.g. .ttl -> text/turtle; otherwise text/plain)",
     )
     .action(
       async (
         worldId: string,
-        cmdOpts: { file?: string; data?: string; type: string },
+        cmdOpts: { file?: string; data?: string; type?: string },
       ) => {
         const opts = program.opts<GlobalOptions>();
 
@@ -99,7 +122,10 @@ export function registerWorldsCommand(program: Command) {
           const result = await fetchWorldsData(
             `/worlds/${encodeURIComponent(worldId)}/import`,
             "POST",
-            { contentType: cmdOpts.type, data: content },
+            {
+              contentType: importContentType(cmdOpts.type, cmdOpts.file),
+              data: content,
+            },
             opts,
           );
           formatOutput(result, opts.json);
