@@ -71,7 +71,7 @@ export function registerWorldsCommand(program: Command) {
 
   worlds
     .command("create")
-    .description("Create a world; the API returns its immutable w_<UUIDv4> ID")
+    .description("Create a world; the API returns its immutable w_<ULID> ID")
     .requiredOption("-n, --name <displayName>", "World display name")
     .action(async (cmdOpts: { name: string }) => {
       const opts = program.opts<GlobalOptions>();
