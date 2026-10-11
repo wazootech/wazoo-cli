@@ -28,7 +28,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@wazoo/client": "npm:@jsr/wazoo__client@^0.3.1",
+    "@wazoo/client": "npm:@jsr/wazoo__client@^0.4.0",
     "cfonts": "^3.3.1",
     "commander": "^14.0.3"
   },
