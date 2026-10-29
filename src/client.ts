@@ -66,3 +66,11 @@ export function formatOutput(data: unknown, jsonMode?: boolean) {
     console.dir(data, { depth: null, colors: true });
   }
 }
+
+/** The `message` of a thrown value when it carries one, else the value itself. */
+export function errorMessage(err: unknown): unknown {
+  if (typeof err === "object" && err !== null && "message" in err) {
+    return err.message || err;
+  }
+  return err;
+}

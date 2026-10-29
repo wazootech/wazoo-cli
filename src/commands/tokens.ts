@@ -1,6 +1,11 @@
 import { Command } from "commander";
 import { listPlatformTokens, createPlatformToken } from "@wazoo/client";
-import { configureClient, formatOutput, GlobalOptions } from "../client.js";
+import {
+  configureClient,
+  errorMessage,
+  formatOutput,
+  GlobalOptions,
+} from "../client.js";
 
 export function registerTokensCommand(program: Command) {
   const tokens = program
@@ -17,8 +22,8 @@ export function registerTokensCommand(program: Command) {
       try {
         const response = await listPlatformTokens();
         formatOutput(response.data ?? response, opts.json);
-      } catch (err: any) {
-        console.error("Failed to list tokens:", err.message || err);
+      } catch (err) {
+        console.error("Failed to list tokens:", errorMessage(err));
         process.exit(1);
       }
     });
@@ -36,8 +41,8 @@ export function registerTokensCommand(program: Command) {
           body: { name: cmdOpts.name },
         });
         formatOutput(response.data ?? response, opts.json);
-      } catch (err: any) {
-        console.error("Failed to create token:", err.message || err);
+      } catch (err) {
+        console.error("Failed to create token:", errorMessage(err));
         process.exit(1);
       }
     });
