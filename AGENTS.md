@@ -17,4 +17,4 @@ Family-wide rules live in the [wazootech workspace constitution](https://github.
 - Before pushing, run `pnpm run format:check`, `pnpm run lint`, `pnpm run typecheck`, and `pnpm run build`; CI runs the same checks. Lint uses `--max-warnings 0`.
 - `@typescript-eslint/no-explicit-any` is an error. In `catch` blocks, use `catch (err)` with the typed `errorMessage(err: unknown)` helper in `src/client.ts`.
 - Workflow actions are pinned to full commit SHAs with a version comment; Node comes from `.node-version`; installs are frozen (`pnpm install --frozen-lockfile`).
-- `secret-scan.yml` runs gitleaks on every pull request and push to `main`. `code-health.yml` only warns (file length, TODO/FIXME without an issue link). `CODEOWNERS` routes review to `@EthanThatOneKid`.
+- `secret-scan.yml` runs gitleaks on every pull request and push to `main`. `code-health.yml` enforces file length (120 lines of code per source file, 300 per test; blank, comment, and import/re-export lines excluded; no allowlisted exceptions) and warns on TODO/FIXME without an issue link. `CODEOWNERS` routes review to `@EthanThatOneKid`.
