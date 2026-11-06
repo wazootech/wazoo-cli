@@ -2,6 +2,7 @@ import { Command } from "commander";
 import { listWorlds, createWorld, getWorld } from "@wazoo/client";
 import {
   configureClient,
+  errorMessage,
   fetchWorldsData,
   formatOutput,
   GlobalOptions,
@@ -47,8 +48,8 @@ export function registerWorldsCommand(program: Command) {
       try {
         const response = await listWorlds();
         formatOutput(response.data ?? response, opts.json);
-      } catch (err: any) {
-        console.error("Failed to list worlds:", err.message || err);
+      } catch (err) {
+        console.error("Failed to list worlds:", errorMessage(err));
         process.exit(1);
       }
     });
@@ -63,8 +64,8 @@ export function registerWorldsCommand(program: Command) {
       try {
         const response = await getWorld({ path: { worldId } });
         formatOutput(response.data ?? response, opts.json);
-      } catch (err: any) {
-        console.error(`Failed to get world '${worldId}':`, err.message || err);
+      } catch (err) {
+        console.error(`Failed to get world '${worldId}':`, errorMessage(err));
         process.exit(1);
       }
     });
@@ -86,8 +87,8 @@ export function registerWorldsCommand(program: Command) {
           },
         });
         formatOutput(response.data ?? response, opts.json);
-      } catch (err: any) {
-        console.error("Failed to create world:", err.message || err);
+      } catch (err) {
+        console.error("Failed to create world:", errorMessage(err));
         process.exit(1);
       }
     });
@@ -129,10 +130,10 @@ export function registerWorldsCommand(program: Command) {
             opts,
           );
           formatOutput(result, opts.json);
-        } catch (err: any) {
+        } catch (err) {
           console.error(
             `Failed to import data into '${worldId}':`,
-            err.message || err,
+            errorMessage(err),
           );
           process.exit(1);
         }
@@ -210,10 +211,10 @@ export function registerWorldsCommand(program: Command) {
             opts,
           );
           formatSearchOutput(result, opts.json);
-        } catch (err: any) {
+        } catch (err) {
           console.error(
             `Failed to search world '${worldId}':`,
-            err.message || err,
+            errorMessage(err),
           );
           process.exit(1);
         }
@@ -249,10 +250,10 @@ export function registerWorldsCommand(program: Command) {
             opts,
           );
           formatOutput(result, opts.json);
-        } catch (err: any) {
+        } catch (err) {
           console.error(
             `Failed to execute SPARQL query on '${worldId}':`,
-            err.message || err,
+            errorMessage(err),
           );
           process.exit(1);
         }
@@ -284,10 +285,10 @@ export function registerWorldsCommand(program: Command) {
             opts,
           );
           formatOutput(result, opts.json);
-        } catch (err: any) {
+        } catch (err) {
           console.error(
             `Failed to export world '${worldId}':`,
-            err.message || err,
+            errorMessage(err),
           );
           process.exit(1);
         }

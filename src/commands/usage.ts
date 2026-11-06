@@ -1,6 +1,11 @@
 import { Command } from "commander";
 import { getWorldUsage } from "@wazoo/client";
-import { configureClient, formatOutput, GlobalOptions } from "../client.js";
+import {
+  configureClient,
+  errorMessage,
+  formatOutput,
+  GlobalOptions,
+} from "../client.js";
 
 export function registerUsageCommand(program: Command) {
   program
@@ -13,8 +18,8 @@ export function registerUsageCommand(program: Command) {
       try {
         const response = await getWorldUsage({ path: { worldId } });
         formatOutput(response.data ?? response, opts.json);
-      } catch (err: any) {
-        console.error("Failed to fetch usage:", err.message || err);
+      } catch (err) {
+        console.error("Failed to fetch usage:", errorMessage(err));
         process.exit(1);
       }
     });

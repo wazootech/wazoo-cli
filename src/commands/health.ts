@@ -1,6 +1,11 @@
 import { Command } from "commander";
 import { getHealth } from "@wazoo/client";
-import { configureClient, formatOutput, GlobalOptions } from "../client.js";
+import {
+  configureClient,
+  errorMessage,
+  formatOutput,
+  GlobalOptions,
+} from "../client.js";
 
 export function registerHealthCommand(program: Command) {
   program
@@ -13,8 +18,8 @@ export function registerHealthCommand(program: Command) {
       try {
         const response = await getHealth();
         formatOutput(response.data ?? response, opts.json);
-      } catch (err: any) {
-        console.error("Health check failed:", err.message || err);
+      } catch (err) {
+        console.error("Health check failed:", errorMessage(err));
         process.exit(1);
       }
     });
