@@ -61,9 +61,7 @@ export function registerWorldsCommand(program: Command) {
       try {
         const response = await createWorld({
           body: {
-            world: {
-              displayName: cmdOpts.name,
-            },
+            displayName: cmdOpts.name,
           },
         });
         formatOutput(response.data ?? response, opts.json);
